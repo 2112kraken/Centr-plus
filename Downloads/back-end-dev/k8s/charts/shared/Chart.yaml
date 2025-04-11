@@ -1,0 +1,7 @@
+apiVersion: v2
+name: shared-chart
+description: A shared Helm chart for Tortuga Tech microservices
+
+type: application
+version: 0.0.1
+appVersion: '0.0.1'

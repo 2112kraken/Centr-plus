@@ -1,0 +1,764 @@
+networks:
+  back-end-network:
+    driver: bridge
+
+volumes:
+  pg_data:
+  pg_adminpanel_data:
+  pgadmin_data:
+  kafka_data_1:
+  kafka_data_2:
+  kafka_data_3:
+  node_modules:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+services:
+  ###############
+  # Centrifugo  #
+  ###############
+  centrifugo:
+    container_name: centrifugo
+    image: centrifugo/centrifugo:v6
+    volumes:
+      - ./startup/centrifugo/config.json:/centrifugo/config.json
+    command: centrifugo -c config.json
+    ports:
+      - 8000:8000
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+  ###############
+  # Kafka       #
+  ###############
+  controller-1:
+    image: apache/kafka:latest
+    container_name: controller-1
+    networks:
+      - back-end-network
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: controller
+      KAFKA_LISTENERS: CONTROLLER://:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@controller-1:9093,2@controller-2:9093,3@controller-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/kafka/bin/kafka-features.sh --bootstrap-controller localhost:9093 describe']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  controller-2:
+    image: apache/kafka:latest
+    container_name: controller-2
+    networks:
+      - back-end-network
+    environment:
+      KAFKA_NODE_ID: 2
+      KAFKA_PROCESS_ROLES: controller
+      KAFKA_LISTENERS: CONTROLLER://:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@controller-1:9093,2@controller-2:9093,3@controller-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/kafka/bin/kafka-features.sh --bootstrap-controller localhost:9093 describe']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  controller-3:
+    image: apache/kafka:latest
+    container_name: controller-3
+    networks:
+      - back-end-network
+    environment:
+      KAFKA_NODE_ID: 3
+      KAFKA_PROCESS_ROLES: controller
+      KAFKA_LISTENERS: CONTROLLER://:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@controller-1:9093,2@controller-2:9093,3@controller-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/kafka/bin/kafka-features.sh --bootstrap-controller localhost:9093 describe']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  broker-1:
+    image: apache/kafka:latest
+    container_name: broker-1
+    networks:
+      - back-end-network
+    volumes:
+      - kafka_data_1:/var/lib/kafka/data
+    environment:
+      KAFKA_NODE_ID: 4
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENERS: 'PLAINTEXT://:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker-1:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@controller-1:9093,2@controller-2:9093,3@controller-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    depends_on:
+      controller-1:
+        condition: service_healthy
+      controller-2:
+        condition: service_healthy
+      controller-3:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/kafka/bin/kafka-metadata-quorum.sh --bootstrap-server localhost:9092 describe --status']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  broker-2:
+    image: apache/kafka:latest
+    container_name: broker-2
+    networks:
+      - back-end-network
+    volumes:
+      - kafka_data_2:/var/lib/kafka/data
+    environment:
+      KAFKA_NODE_ID: 5
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENERS: 'PLAINTEXT://:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker-2:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@controller-1:9093,2@controller-2:9093,3@controller-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    depends_on:
+      controller-1:
+        condition: service_healthy
+      controller-2:
+        condition: service_healthy
+      controller-3:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/kafka/bin/kafka-metadata-quorum.sh --bootstrap-server localhost:9092 describe --status']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  broker-3:
+    image: apache/kafka:latest
+    container_name: broker-3
+    networks:
+      - back-end-network
+    volumes:
+      - kafka_data_3:/var/lib/kafka/data
+    environment:
+      KAFKA_NODE_ID: 6
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENERS: 'PLAINTEXT://:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker-3:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@controller-1:9093,2@controller-2:9093,3@controller-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    depends_on:
+      controller-1:
+        condition: service_healthy
+      controller-2:
+        condition: service_healthy
+      controller-3:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/kafka/bin/kafka-metadata-quorum.sh --bootstrap-server localhost:9092 describe --status']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  redpanda-console:
+    image: redpandadata/console:latest
+    container_name: redpanda-console
+    ports:
+      - '8080:8080'
+    environment:
+      KAFKA_BROKERS: 'broker-1:9092,broker-2:9092,broker-3:9092'
+      SERVER_LISTENPORT: '8080'
+      CONSOLE_LISTEN_ADDRESS: '0.0.0.0:8080'
+      CONSOLE_KAFKA_BROKERS_0: 'broker-1:9092'
+      CONSOLE_LOGIN_ENABLED: 'false'
+      CONSOLE_SCHEMAREGISTRY_ENABLED: 'false'
+      TZ: 'UTC'
+    depends_on:
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:8080/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ###############
+  # Databases   #
+  ###############
+  redis:
+    image: redis:7-alpine
+    container_name: redis_db
+    command: redis-server --requirepass 123
+    environment:
+      - REDIS_PASSWORD=123
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - back-end-network
+    healthcheck:
+      test: ['CMD', 'redis-cli', '--raw', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  pg:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_INITDB_ARGS: '--locale=C.UTF-8'
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./startup/pg/main/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./startup/pg/main/postgresql.conf:/etc/postgresql/postgresql.conf
+    networks:
+      - back-end-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  pg_adminpanel:
+    image: postgres:17-alpine
+    container_name: postgres_admin_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_INITDB_ARGS: '--locale=C.UTF-8'
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+    ports:
+      - '5433:5432'
+    volumes:
+      - pg_adminpanel_data:/var/lib/postgresql/data
+      - ./startup/pg/admin/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./startup/pg/admin/postgresql.conf:/etc/postgresql/postgresql.conf
+    networks:
+      - back-end-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  ###############
+  # Services    #
+  ###############
+  identity:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: identity
+        NODE_ENV: docker
+    container_name: identity_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/identity/.env.local
+    environment:
+      - APP_NAME=identity
+      - NODE_ENV=docker
+      - PG_HOST=pg
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - PG_LOGGING=true
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - REDIS_URL=redis://:123@redis:6379/0
+    ports:
+      - '3001:3000'
+      - '5001:5000'
+      - '9229:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  balance:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: balance
+        NODE_ENV: docker
+    container_name: balance_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/balance/.env.local
+    environment:
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - APP_NAME=balance
+      - NODE_ENV=docker
+      - PG_HOST=pg
+      - PG_LOGGING=false
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - KAFKA_CLIENT_ID=balance-client
+      - KAFKA_GROUP_ID=balance-group
+    ports:
+      - '3002:3000'
+      - '5002:5000'
+      - '9232:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  adminpanel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: adminpanel
+        NODE_ENV: docker
+    container_name: adminpanel_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/adminpanel/.env.local
+    environment:
+      - APP_NAME=adminpanel
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - NODE_ENV=docker
+      - PG_HOST=pg_adminpanel
+      - PG_PORT=5432
+      - PG_IDENTITY_HOST=pg
+      - PG_BALANCE_HOST=pg
+      - IDENTITY_HOST=identity
+      - IDENTITY_TCP_PORT=5000
+    ports:
+      - '4000:3000'
+      - '9231:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg_adminpanel:
+        condition: service_healthy
+      identity:
+        condition: service_healthy
+      balance:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  gamification:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: gamification
+        NODE_ENV: docker
+    container_name: gamification_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/gamification/.env.local
+    environment:
+      - APP_NAME=gamification
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - NODE_ENV=docker
+      - PG_HOST=pg
+      - PG_LOGGING=false
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - KAFKA_CLIENT_ID=gamification-client
+      - KAFKA_GROUP_ID=gamification-group
+    ports:
+      - '3003:3000'
+      - '5003:5000'
+      - '9237:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  stats:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: stats
+        NODE_ENV: docker
+    container_name: stats_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/stats/.env.local
+    environment:
+      - APP_NAME=stats
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - NODE_ENV=docker
+      - PG_HOST=pg
+      - PG_LOGGING=false
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - KAFKA_CLIENT_ID=stats-client
+      - KAFKA_GROUP_ID=stats-group
+    ports:
+      - '3004:3000'
+      - '5004:5000'
+      - '9236:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  games:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: games
+        NODE_ENV: docker
+    container_name: games_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/games/.env.local
+    environment:
+      - APP_NAME=games
+      - NODE_ENV=docker
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - PG_HOST=pg
+      - PG_LOGGING=false
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - KAFKA_CLIENT_ID=games-client
+      - KAFKA_GROUP_ID=games-group
+      - BALANCE_HOST=balance
+      - BALANCE_TCP_PORT=5000
+      - IDENTITY_HOST=identity
+      - IDENTITY_TCP_PORT=5000
+    ports:
+      - '3005:3000'
+      - '5005:5000'
+      - '9235:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  psp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: psp
+        NODE_ENV: docker
+    container_name: psp_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/psp/.env.local
+    environment:
+      - APP_NAME=psp
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - NODE_ENV=docker
+      - PG_HOST=pg
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - KAFKA_CLIENT_ID=psp-client
+      - KAFKA_GROUP_ID=psp-group
+    ports:
+      - '3006:3000'
+      - '5006:5000'
+      - '9234:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: scheduler
+        NODE_ENV: docker
+    container_name: scheduler_service
+    command: startup/scripts/start-service-in-docker.sh
+    env_file:
+      - ./apps/scheduler/.env.local
+    environment:
+      - APP_NAME=scheduler
+      - APP_PORT=3000
+      - APP_TCP_PORT=5000
+      - NODE_ENV=docker
+      - PG_HOST=pg
+      - KAFKA_BROKERS=broker-1:9092,broker-2:9092,broker-3:9092
+      - KAFKA_CLIENT_ID=scheduler-client
+      - KAFKA_GROUP_ID=scheduler-group
+    ports:
+      - '3007:3000'
+      - '5007:5000'
+      - '9233:9229' # Debug port
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      pg:
+        condition: service_healthy
+      broker-1:
+        condition: service_healthy
+      broker-2:
+        condition: service_healthy
+      broker-3:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: gateway
+        NODE_ENV: docker
+    container_name: gateway_service
+    command: npx nest start gateway --debug 0.0.0.0:9229 --watch
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    env_file:
+      - ./apps/gateway/.env.local
+    environment:
+      - APP_NAME=gateway
+      - APP_PORT=3000
+      - NODE_ENV=docker
+      - APOLLO_SERVICES=[{"name":"identity","url":"http://identity:3000/graphql"},{"name":"games","url":"http://games:3000/graphql"},{"name":"balance","url":"http://balance:3000/graphql"}]
+    ports:
+      - '3000:3000'
+      - '9230:9229' # Debug port (different host port to avoid conflict)
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/health']
+      interval: 1s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      identity:
+        condition: service_healthy
+      games:
+        condition: service_healthy
+    networks:
+      - back-end-network
+
+  ###############
+  # Monitoring  #
+  ###############
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./startup/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - '9090:9090'
+    environment:
+      - GRAFANA_TOKEN=${GRAFANA_TOKEN}
+    networks:
+      - back-end-network
+    depends_on:
+      identity:
+        condition: service_healthy
+      balance:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:9090/-/healthy']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3009:3000'
+    environment:
+      GF_SECURITY_ADMIN_USER: 'admin'
+      GF_SECURITY_ADMIN_PASSWORD: 'admin'
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: '/etc/grafana/provisioning/dashboards/microservices-dashboard.json'
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./startup/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./startup/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    networks:
+      - back-end-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/api/health']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s

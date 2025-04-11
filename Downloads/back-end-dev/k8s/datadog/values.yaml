@@ -1,0 +1,7 @@
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  site: datadoghq.eu
+  kubelet:
+    tlsVerify: false
+  logs:
+    enabled: true

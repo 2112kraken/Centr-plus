@@ -1,0 +1,20 @@
+{
+  "errors": {
+    "identity": {
+      "login_required": "Please log in to access this feature",
+      "invalid_credentials": "The email or password you entered is incorrect. Please try again",
+      "invalid_confirmation": "The confirmation link has expired or is invalid. Please request a new one",
+      "session_expired": "Your session has expired. Please log in again",
+      "check_credentials": "Please check your username and password and try again"
+    },
+    "user": {
+      "contacts_exist": "An account with these contact details already exists",
+      "not_found": "We could not find an account with these details",
+      "account_suspended": "This account has been temporarily suspended. Please contact support for assistance",
+      "contact_not_found": "Contact information not found. Please check your account details and try again"
+    },
+    "general": {
+      "server_error": "Something went wrong on our end. Please try again later"
+    }
+  }
+}

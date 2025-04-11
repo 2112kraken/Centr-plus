@@ -1,0 +1,82 @@
+mutation Login($dto: LoginDto!) {
+  login(dto: $dto) {
+    accessToken
+    refreshToken
+  }
+}
+
+mutation Register($dto: RegisterDto!) {
+  register(dto: $dto) {
+    accessToken
+    refreshToken
+  }
+}
+
+query Players {
+  players {
+    total
+    data {
+      id
+      normalizedUsername
+      username
+      lang2
+      isActive
+      roles {
+        name
+      }
+      info {
+        id
+        firstName
+        lastName
+        middleName
+        dateOfBirth
+        address
+        countryCode
+        city
+      }
+      contacts {
+        type
+        value
+        isMain
+        verifiedAt
+      }
+    }
+  }
+}
+
+query Admin($id: String!) {
+  admin(id: $id) {
+    id
+    isActive
+    roles {
+      id
+      name
+    }
+  }
+}
+
+query Admins {
+  admins {
+    total
+    data {
+      id
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query Roles {
+  roles {
+    id
+    name
+  }
+}
+
+mutation RefreshAccessToken {
+  refreshAccessToken {
+    accessToken
+    refreshToken
+  }
+}

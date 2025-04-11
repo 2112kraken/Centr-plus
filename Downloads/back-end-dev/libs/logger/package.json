@@ -1,0 +1,8 @@
+{
+  "name": "@app/logger",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.13",
+    "pino": "^9.6.0"
+  }
+}

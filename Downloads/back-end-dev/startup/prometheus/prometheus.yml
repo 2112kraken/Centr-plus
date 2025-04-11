@@ -1,0 +1,54 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'identity'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['identity:3000']
+
+  - job_name: 'balance'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['balance:3000']
+
+  - job_name: 'adminpanel'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['adminpanel:3000']
+
+  - job_name: 'gateway'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['gateway:3000']
+      
+  - job_name: 'games'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['games:3000']
+      
+  - job_name: 'gamification'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['gamification:3000']
+      
+  - job_name: 'stats'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['stats:3000']
+      
+  - job_name: 'psp'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['psp:3000']
+      
+  - job_name: 'scheduler'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['scheduler:3000']
+
+# Добавляем remote_write для отправки метрик в Grafana Cloud
+remote_write:
+  - url: 'https://prometheus-blocks-prod-eu-west-2.grafana.net/api/prom/push'
+    bearer_token: '${GRAFANA_TOKEN}'

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.app.name }}-deployment
+  labels:
+    app: {{ .Values.app.name }}
+    environment: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+      environment: {{ .Release.Namespace }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+        environment: {{ .Release.Namespace }}
+      annotations:
+        ad.datadoghq.com/{{ .Values.app.name }}.logs: '[{"source":"app", "service":"{{ .Values.app.name }}"}]'
+    spec:
+      imagePullSecrets:
+        - name: github-dev-read-registry-secret
+      containers:
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.image.repository }}/back-end/{{ .Release.Namespace }}/{{ .Values.app.name }}:{{ .Values.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.port }}
+              protocol: TCP
+            {{- if .Values.app.tcpPort }}
+            - name: tcp
+              containerPort: {{ .Values.app.tcpPort }}
+              protocol: TCP
+            {{- end }}
+          {{- if .Values.probes }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.liveness.path }}
+              port: {{ .Values.probes.liveness.port }}
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.readiness.path }}
+              port: {{ .Values.probes.readiness.port }}
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+          {{- end }}
+          envFrom:
+            {{- if .Values.config.env }}
+            - configMapRef:
+                name: {{ .Values.app.name }}-config
+            {{- end }}
+            {{- if .Values.config.secrets }}
+            - secretRef:
+                name: {{ .Values.app.name }}-secrets
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

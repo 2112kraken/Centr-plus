@@ -1,0 +1,22 @@
+# gateway service specific configuration
+app:
+  name: gateway
+
+# Service specific configurations
+service:
+  type: NodePort
+  port: 80
+  targetPort: 3000
+  nodePort: 30080
+
+config:
+  env:
+    APP_NAME: gateway
+    APP_PORT: 3000
+    LOG_FORMAT: pretty
+    APOLLO_SERVICES: '[{"name":"identity","url":"http://identity-http-service.dev.svc.cluster.local/graphql"}, { "name": "games", "url": "http://games-http-service.dev.svc.cluster.local/graphql" }]'
+    APOLLO_PLAYGROUND: true
+    APOLLO_INTROSPECTION: true
+
+    # if you want to enable the Apollo Gateway, uncomment the following line 
+    # APOLLO_ENABLED_SERVICES: '[]'

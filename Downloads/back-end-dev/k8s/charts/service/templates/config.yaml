@@ -1,0 +1,30 @@
+{{- if .Values.config.env }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.app.name }}-config
+  labels:
+    app: {{ .Values.app.name }}
+    environment: {{ .Release.Namespace }}
+data:
+  {{- range $key, $value := .Values.config.env }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
+---
+{{- if .Values.config.secrets }}
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.app.name }}-secrets
+  labels:
+    app: {{ .Values.app.name }}
+    environment: {{ .Release.Namespace }}
+type: Opaque
+data:
+  {{- range $key, $value := .Values.config.secrets }}
+  {{ $key }}: {{ $value | b64enc | quote }}
+  {{- end }}
+{{- end }}

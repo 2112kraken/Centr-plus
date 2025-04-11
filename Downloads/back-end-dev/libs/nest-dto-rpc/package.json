@@ -1,0 +1,12 @@
+{
+  "name": "@app/nest-dto-rpc",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.13",
+    "@nestjs/core": "^11.0.13",
+    "@nestjs/microservices": "^11.0.13",
+    "@msgpack/msgpack": "^3.1.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  }
+}

@@ -1,0 +1,41 @@
+# scheduler service specific configuration
+app:
+  name: scheduler
+
+# Service specific configurations
+config:
+  dbMigrationsEnabled: true
+
+  env:
+    APP_PORT: 3000
+    APP_TCP_PORT: 5000
+
+    #LOG
+    LOG_LEVEL: debug
+    LOG_FORMAT: pretty
+
+    #DB
+    PG_HOST: postgresql-main-dev
+    PG_PORT: 5432
+    PG_USERNAME: postgres
+    PG_DATABASE: scheduler
+    PG_LOGGING: false
+    PG_SYNCHRONIZE: false
+
+    #DB migration
+    PG_MIGRATION_USERNAME: postgres
+    PG_MIGRATION_LOGGING: true
+
+    #DB logical replication
+    PG_REPLICATOR_USERNAME: replicator
+
+    # KAFKA
+    KAFKA_BROKERS: kafka-broker-0.kafka-broker.dev.svc.cluster.local:9092
+    KAFKA_CLIENT_ID: scheduler-client
+    KAFKA_GROUP_ID: scheduler-group
+
+  secrets:
+    #DB
+    PG_PASSWORD: qweQWE123
+    PG_MIGRATION_PASSWORD: qweQWE123
+    PG_REPLICATOR_PASSWORD: qweQWE123

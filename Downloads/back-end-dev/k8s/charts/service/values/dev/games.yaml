@@ -1,0 +1,58 @@
+# games service specific configuration
+app:
+  name: games
+
+# Service specific configurations
+config:
+  dbMigrationsEnabled: true
+
+  env:
+    APP_PORT: 3000
+    APP_TCP_PORT: 5000
+
+    IDENTITY_HOST: identity-tcp-service.dev.svc.cluster.local
+    IDENTITY_TCP_PORT: 5000
+
+    BALANCE_HOST: balance-tcp-service.dev.svc.cluster.local
+    BALANCE_TCP_PORT: 5000
+
+    #JVT
+    JWT_ACCESS_TOKEN_MS_LLT: '3600000'
+    JWT_REFRESH_TOKEN_MS_LLT: '604800000'
+
+    #LOG
+    LOG_LEVEL: debug
+    LOG_FORMAT: pretty
+
+    #DB
+    PG_HOST: postgresql-main-dev.dev.svc.cluster.local
+    PG_PORT: 5432
+    PG_USERNAME: postgres
+    PG_DATABASE: games
+    PG_LOGGING: false
+    PG_SYNCHRONIZE: false
+
+    #DB migration
+    PG_MIGRATION_USERNAME: postgres
+    PG_MIGRATION_LOGGING: true
+
+    #DB logical replication
+    PG_REPLICATOR_USERNAME: replicator
+
+    # KAFKA
+    KAFKA_BROKERS: kafka-broker-0.kafka-broker.dev.svc.cluster.local:9092
+    KAFKA_CLIENT_ID: games-client
+    KAFKA_GROUP_ID: games-group
+
+    CURRENCY_EXCHANGE_STRATEGY: LOCAL
+    INFIN_LAUNCH_HOST: http://localhost
+
+  secrets:
+    #JVT
+    JWT_ACCESS_TOKEN_SECRET: J3E597uBh3vJUCG6x9qTCx9MwpeBkLUn
+    JWT_REFRESH_TOKEN_SECRET: 597uBh3vTCx9MwpeJ3EBkLUnJUCG6x9q
+
+    #DB
+    PG_PASSWORD: qweQWE123
+    PG_MIGRATION_PASSWORD: qweQWE123
+    PG_REPLICATOR_PASSWORD: qweQWE123

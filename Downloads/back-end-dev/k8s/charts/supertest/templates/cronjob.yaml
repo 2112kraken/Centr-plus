@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.app.name }}-cronjob
+  labels:
+    app: {{ .Values.app.name }}
+    environment: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: {{ .Values.app.name }}
+            environment: {{ .Release.Namespace }}
+        spec:
+          imagePullSecrets:
+            - name: github-dev-read-registry-secret
+          containers:
+            - name: {{ .Values.app.name }}-cronjob
+              image: "{{ .Values.image.repository }}/back-end/{{ .Release.Namespace }}/{{ .Values.app.name }}:{{ .Values.image.tag | default "latest" }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              envFrom:
+                - configMapRef:
+                    name: {{ .Values.app.name }}-config
+                - secretRef:
+                    name: {{ .Values.app.name }}-secrets
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+          restartPolicy: OnFailure
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

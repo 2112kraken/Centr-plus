@@ -1,0 +1,25 @@
+#syntax=docker/dockerfile:1.2
+
+FROM node:23-alpine
+
+ARG APP_NAME
+
+ENV APP_NAME=${APP_NAME}
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR /app
+
+# Copy only package files first
+COPY package.json pnpm-lock.yaml ./
+
+# Use persistent cache for PNPM store
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+  pnpm config set store-dir /root/.local/share/pnpm/store && \
+  pnpm install --frozen-lockfile
+
+COPY . .
+
+CMD ["sh", "-c", "npm run test"]

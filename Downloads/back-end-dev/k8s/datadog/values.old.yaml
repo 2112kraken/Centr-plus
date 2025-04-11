@@ -1,0 +1,44 @@
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  site: datadoghq.eu
+  kubelet:
+    tlsVerify: false
+  env:
+    - name: DD_CONTAINER_INCLUDE_LOGS
+      value: "kube_namespace:^dev$"
+    - name: DD_HOSTNAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: DD_APM_ENABLED
+      value: "true"
+    - name: DD_APM_RECEIVER_OTLP_ENABLED
+      value: "true"
+    - name: DD_OTLP_CONFIG_TRACES_ENABLED
+      value: "true"
+    - name: DD_OTLP_CONFIG_METRICS_ENABLED
+      value: "true"
+    - name: DD_OTLP_CONFIG_HTTP_PORT
+      value: "4318"
+    - name: DD_OTLP_CONFIG_GRPC_PORT
+      value: "4317"
+    - name: DD_OTLP_CONFIG_LOGS_ENABLED
+      value: "true"
+  logs:
+    enabled: true
+    autoMultiLineDetection: true
+  apm:
+    enabled: true
+  processAgent:
+    enabled: true
+  orchestratorExplorer:
+    enabled: true
+  otlp:
+    receiver:
+      protocols:
+        grpc:
+          enabled: true
+          endpoint: 0.0.0.0:4317
+        http:
+          enabled: true
+          endpoint: 0.0.0.0:4318

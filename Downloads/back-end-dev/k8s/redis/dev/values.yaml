@@ -1,0 +1,24 @@
+global:
+  redis:
+    password: "qweQWE123" # Change this password
+
+auth:
+  enabled: true
+  password: "qweQWE123"
+
+architecture: standalone # Can also be "replication" or "cluster"
+
+persistence:
+  enabled: true
+  storageClass: "your-storage-class" # Replace with your desired StorageClass
+  size: 10Gi
+
+master:
+  persistence:
+    accessModes:
+      - ReadWriteOnce
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true # Enable if using Prometheus operator

@@ -1,0 +1,79 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "migration:create",
+      "type": "shell",
+      "command": "./startup/scripts/migration/create-migration.sh ${input:migrationName} ${input:serviceName} ${input:environment}",
+      "problemMatcher": []
+    },
+    {
+      "label": "migration:generate",
+      "type": "shell",
+      "command": "./startup/scripts/migration/generate-migration.sh ${input:migrationName} ${input:serviceName}",
+      "problemMatcher": []
+    },
+    {
+      "label": "migration:run",
+      "type": "shell",
+      "command": "./startup/scripts/migration/run-migration.sh ${input:serviceName} ${input:environment}",
+      "problemMatcher": []
+    },
+    {
+      "label": "migration:revert",
+      "type": "shell",
+      "command": "./startup/scripts/migration/revert-migration.sh ${input:serviceName} ${input:environment}",
+      "problemMatcher": []
+    },
+    {
+      "label": "reset",
+      "type": "shell",
+      "command": "docker-compose down && docker volume rm back-end_pg_data back-end_pg_admin_data back-end_node_modules",
+      "problemMatcher": []
+    },
+    {
+      "label": "start all",
+      "type": "shell",
+      "command": "docker-compose up -d && docker-compose logs -f",
+      "problemMatcher": []
+    },
+    {
+      "label": "logs",
+      "type": "shell",
+      "command": "docker-compose logs ${input:serviceName} -f",
+      "problemMatcher": []
+    },
+    {
+      "label": "update scheme",
+      "type": "shell",
+      "command": "docker-compose restart gateway && sleep 5 && pnpm codegen",
+      "problemMatcher": []
+    },
+    {
+      "label": "rm containers volumes",
+      "detail": "THIS TASK REMVOES ALL DATA IN DOCKETR. USE IT CAREFULLY",
+      "type": "shell",
+      "command": "docker container rm -f $(docker container ls -aq) && docker volume rm -f $(docker volume ls -q) && docker-compose down",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "migrationName",
+      "description": "Name of the migration",
+      "type": "promptString"
+    },
+    {
+      "id": "serviceName",
+      "description": "Name of the service (e.g. identity, balance)",
+      "type": "pickString",
+      "options": ["identity", "balance", "notification", "gateway", "admin", "games", "psp", "stats"]
+    },
+    {
+      "id": "environment",
+      "description": "Environment",
+      "type": "pickString",
+      "options": ["local", "dev"]
+    }
+  ]
+}

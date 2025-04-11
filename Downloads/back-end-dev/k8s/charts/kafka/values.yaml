@@ -1,0 +1,27 @@
+image:
+  repository: apache/kafka
+  tag: latest
+  pullPolicy: IfNotPresent
+
+controller:
+  replicas: 3
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+broker:
+  replicas: 3
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  storage:
+    size: 10Gi
+    storageClass: "cstor-csi"

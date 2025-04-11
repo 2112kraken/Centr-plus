@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "paths": {
+      "@common/*": ["common/*"],
+      "@identity/*": ["apps/identity/src/*"],
+      "@adminpanel/*": ["apps/adminpanel/src/*"],
+      "@notification/*": ["apps/notification/src/*"],
+      "@balance/*": ["apps/balance/src/*"],
+      "@games/*": ["apps/games/src/*"],
+      "@supertest/*": ["apps/supertest/src/*"],
+      "@gateway/*": ["apps/gateway/src/*"],
+      "@scheduler/*": ["apps/scheduler/src/*"],
+      "@psp/*": ["apps/psp/src/*"],
+      "@stats/*": ["apps/stats/src/*"],
+      "@gamification/*": ["apps/gamification/src/*"],
+      "@app/nest-dto-rpc": ["libs/nest-dto-rpc/src"],
+      "@app/nest-dto-rpc/*": ["libs/nest-dto-rpc/src/*"],
+      "@app/logger": ["libs/logger/src"],
+      "@app/logger/*": ["libs/logger/src/*"]
+    }
+  }
+}

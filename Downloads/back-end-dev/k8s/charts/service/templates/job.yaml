@@ -1,0 +1,44 @@
+{{- if .Values.config.dbMigrationsEnabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.app.name }}-migration
+  labels:
+    app: {{ .Values.app.name }}
+    environment: {{ .Release.Namespace }}
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+        environment: {{ .Release.Namespace }}
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: github-dev-read-registry-secret
+      containers:
+        - name: {{ .Values.app.name }}-migration
+          image: "{{ .Values.image.repository }}/back-end/{{ .Release.Namespace }}/{{ .Values.app.name }}:{{ .Values.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: 
+            - "/bin/sh"
+            - "-c"
+          args:
+            - |
+              npx ts-node -r tsconfig-paths/register \
+                  node_modules/typeorm/cli.js migration:run \
+                  -d data-source.ts
+          envFrom:
+            {{- if .Values.config.env }}
+            - configMapRef:
+                name: {{ .Values.app.name }}-config
+            {{- end }}
+            {{- if .Values.config.secrets }}
+            - secretRef:
+                name: {{ .Values.app.name }}-secrets
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+{{- end }}

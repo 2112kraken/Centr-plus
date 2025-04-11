@@ -1,0 +1,55 @@
+global:
+  # Set global PostgreSQL configuration
+  postgresql:
+    auth:
+      postgresPassword: qweQWE123
+
+primary:
+  persistence:
+    enabled: true
+    size: 15Gi
+    storageClass: "cstor-csi"
+
+  # PostgreSQL container resources (for dev: low limits/requests)
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+
+  # Set environment for debugging/development
+  extraEnvVars:
+    - name: POSTGRESQL_LOG_LEVEL
+      value: DEBUG
+    - name: POSTGRESQL_EXTRA_FLAGS
+      value: "-c wal_level=logical"
+
+  # Initialize databases
+  initdb:
+    scripts:
+      init.sql: |
+        CREATE DATABASE admin;
+        CREATE USER replicator WITH REPLICATION PASSWORD 'qweQWE123';
+        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+replica:
+  replicaCount: 0
+
+# Disable network policies for dev
+networkPolicy:
+  enabled: false
+
+# Set the service type to ClusterIP (default)
+service:
+  type: ClusterIP
+  port: 5432
+
+metrics:
+  enabled: false
+
+# Disable any advanced settings for dev
+commonAnnotations: {}
+primaryAnnotations: {}
+podAnnotations: {}

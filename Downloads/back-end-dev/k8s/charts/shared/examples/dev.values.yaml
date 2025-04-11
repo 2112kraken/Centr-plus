@@ -1,0 +1,6 @@
+namespace: dev
+
+config:
+  registry:
+    name: github-dev-read-registry-secret
+    secret: '{"auths":{"ghcr.io":{"username":"tortuga-tech","password":"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","email":"arkhivarius@tortuga.tech"}}}'

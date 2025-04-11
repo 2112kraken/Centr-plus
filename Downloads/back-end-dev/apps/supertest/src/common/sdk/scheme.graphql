@@ -1,0 +1,139 @@
+mutation Register($dto: RegisterDto!) {
+  register(dto: $dto) {
+    accessToken
+    refreshToken
+    user {
+      id
+      lang2
+      username
+      contacts {
+        id
+        type
+        value
+        isMain
+        verifiedAt
+      }
+      info {
+        firstName
+        middleName
+        lastName
+        dateOfBirth
+        address
+        countryCode
+        city
+      }
+    }
+  }
+}
+
+mutation Login($dto: LoginDto!) {
+  login(dto: $dto) {
+    accessToken
+    refreshToken
+    user {
+      id
+      lang2
+      username
+      contacts {
+        id
+        type
+        value
+        isMain
+        verifiedAt
+      }
+      info {
+        firstName
+        middleName
+        lastName
+        dateOfBirth
+        address
+        countryCode
+        city
+      }
+    }
+  }
+}
+
+mutation SetPlayerInfo($dto: SetPlayerInfoDto!) {
+  setPlayerInfo(dto: $dto) {
+    firstName
+    middleName
+    lastName
+    dateOfBirth
+    address
+    countryCode
+    city
+  }
+}
+
+query Player {
+  player {
+    id
+    lang2
+    username
+    contacts {
+      id
+      type
+      value
+      isMain
+      verifiedAt
+    }
+    info {
+      firstName
+      middleName
+      lastName
+      dateOfBirth
+      address
+      countryCode
+      city
+    }
+  }
+}
+
+mutation RefreshAccessToken {
+  refreshAccessToken {
+    accessToken
+    refreshToken
+    user {
+      id
+      lang2
+      username
+      contacts {
+        id
+        type
+        value
+        isMain
+        verifiedAt
+      }
+      info {
+        firstName
+        middleName
+        lastName
+        dateOfBirth
+        address
+        countryCode
+        city
+      }
+    }
+  }
+}
+
+mutation BeginContactConfirmation($dto: ContactBeginConfirmationDto!) {
+  beginContactConfirmation(dto: $dto) {
+    expireAt
+  }
+}
+
+mutation FinishContactConfirmation($dto: ContactFinishConfirmationDto!) {
+  finishContactConfirmation(dto: $dto) {
+    id
+    type
+    value
+    isMain
+    verifiedAt
+  }
+}
+
+mutation LaunchGame($dto: LaunchGameDto!) {
+  launchGame(dto: $dto)
+}

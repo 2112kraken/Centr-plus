@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "projects": {
+    "identity": {
+      "type": "application",
+      "root": "apps/identity",
+      "entryFile": "main",
+      "sourceRoot": "apps/identity/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/identity/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "../i18n/**/*",
+            "watchAssets": true,
+            "outDir": "dist/apps/identity/i18n"
+          }
+        ]
+      }
+    },
+    "notification": {
+      "type": "application",
+      "root": "apps/notification",
+      "entryFile": "main",
+      "sourceRoot": "apps/notification/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notification/tsconfig.app.json"
+      }
+    },
+    "gateway": {
+      "type": "application",
+      "root": "apps/gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/gateway/tsconfig.app.json"
+      }
+    },
+    "balance": {
+      "type": "application",
+      "root": "apps/balance",
+      "entryFile": "main",
+      "sourceRoot": "apps/balance/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/balance/tsconfig.app.json"
+      }
+    },
+    "supertest": {
+      "type": "application",
+      "root": "apps/supertest",
+      "entryFile": "main",
+      "sourceRoot": "apps/supertest/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/supertest/tsconfig.app.json"
+      }
+    },
+    "nest-dto-rpc": {
+      "type": "library",
+      "root": "libs/nest-dto-rpc",
+      "entryFile": "index",
+      "sourceRoot": "libs/nest-dto-rpc/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/nest-dto-rpc/tsconfig.lib.json"
+      }
+    },
+    "adminpanel": {
+      "type": "application",
+      "root": "apps/adminpanel",
+      "entryFile": "main",
+      "sourceRoot": "apps/adminpanel/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/adminpanel/tsconfig.app.json"
+      }
+    },
+    "logger": {
+      "type": "library",
+      "root": "libs/logger",
+      "entryFile": "index",
+      "sourceRoot": "libs/logger/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/logger/tsconfig.lib.json"
+      }
+    },
+    "games": {
+      "type": "application",
+      "root": "apps/games",
+      "entryFile": "main",
+      "sourceRoot": "apps/games/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/games/tsconfig.app.json"
+      }
+    },
+    "psp": {
+      "type": "application",
+      "root": "apps/psp",
+      "entryFile": "main",
+      "sourceRoot": "apps/psp/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/psp/tsconfig.app.json"
+      }
+    },
+    "stats": {
+      "type": "application",
+      "root": "apps/stats",
+      "entryFile": "main",
+      "sourceRoot": "apps/stats/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/stats/tsconfig.app.json"
+      }
+    },
+    "scheduler": {
+      "type": "application",
+      "root": "apps/scheduler",
+      "entryFile": "main",
+      "sourceRoot": "apps/scheduler/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/scheduler/tsconfig.app.json"
+      }
+    },
+    "gamification": {
+      "type": "application",
+      "root": "apps/gamification",
+      "entryFile": "main",
+      "sourceRoot": "apps/gamification/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/gamification/tsconfig.app.json"
+      }
+    }
+  }
+}

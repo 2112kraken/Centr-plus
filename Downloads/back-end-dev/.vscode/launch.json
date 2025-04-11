@@ -1,0 +1,149 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "local",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect-brk"],
+      "program": "${workspaceFolder}/node_modules/@nestjs/cli/bin/nest.js",
+      "args": ["start", "${input:app}", "--watch"],
+      "autoAttachChildProcesses": true,
+      "restart": true,
+      "sourceMaps": true,
+      "stopOnEntry": false,
+      "outputCapture": "std",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "local",
+        "APP_NAME": "${input:app}"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "dev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect-brk"],
+      "program": "${workspaceFolder}/node_modules/@nestjs/cli/bin/nest.js",
+      "args": ["start", "${input:app}", "--watch"],
+      "autoAttachChildProcesses": true,
+      "restart": true,
+      "sourceMaps": true,
+      "stopOnEntry": false,
+      "outputCapture": "std",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "dev",
+        "APP_NAME": "${input:app}",
+        "API_URL": "http://kube0:30080/graphql"
+      }
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "debug",
+      "port": "${input:debug-port}",
+      "restart": true,
+      "remoteRoot": "/app",
+      "localRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test kube0",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["test"],
+      "env": {
+        "GATEWAY_HOST": "116.203.99.171",
+        "GATEWAY_PORT": "30080",
+        "ADMINPANEL_HOST": "116.203.99.171",
+        "ADMINPANEL_PORT": "30180",
+        "NODE_ENV": "test"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "enviremant",
+      "type": "pickString",
+      "description": "list of enviermants",
+      "default": "local",
+      "options": ["dev", "local", "test"]
+    },
+    {
+      "id": "app",
+      "type": "pickString",
+      "description": "list of apps",
+      "default": "identity",
+      "options": [
+        "gateway",
+        "balance",
+        "identity",
+        "notification",
+        "adminpanel",
+        "supertest",
+        "scheduler",
+        "psp",
+        "games",
+        "stats",
+        "gamification"
+      ]
+    },
+    {
+      "id": "docker-service",
+      "type": "pickString",
+      "description": "Select service to debug",
+      "default": "identity",
+      "options": ["identity", "gateway", "scheduler", "psp", "games", "stats", "gamification"]
+    },
+    {
+      "id": "debug-port",
+      "type": "pickString",
+      "description": "Debug port for selected service",
+      "options": [
+        {
+          "label": "identity (9229)",
+          "value": "9229"
+        },
+        {
+          "label": "gateway (9230)",
+          "value": "9230"
+        },
+        {
+          "label": "adminpanel (9231)",
+          "value": "9231"
+        },
+        {
+          "label": "balance (9232)",
+          "value": "9232"
+        },
+        {
+          "label": "scheduler (9233)",
+          "value": "9233"
+        },
+        {
+          "label": "psp (9234)",
+          "value": "9234"
+        },
+        {
+          "label": "games (9235)",
+          "value": "9235"
+        },
+        {
+          "label": "stats (9236)",
+          "value": "9236"
+        },
+        {
+          "label": "gamification (9237)",
+          "value": "9237"
+        }
+      ]
+    }
+  ]
+}

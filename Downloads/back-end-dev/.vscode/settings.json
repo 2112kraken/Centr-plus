@@ -1,0 +1,61 @@
+{
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.quoteStyle": "single",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.singleQuote": true,
+  "prettier.jsxSingleQuote": true,
+  "cSpell.words": [
+    "adminer",
+    "adminpanel",
+    "autocannon",
+    "BIGSERIAL",
+    "BUILDKIT",
+    "buildx",
+    "Codegen",
+    "confluentinc",
+    "cooldown",
+    "gamification",
+    "getdel",
+    "grapthql",
+    "healthcheck",
+    "msgpack",
+    "nestjs",
+    "ormconfig",
+    "Partitioner",
+    "Partitioners",
+    "perftest",
+    "pgadmin",
+    "pino",
+    "provectuslabs",
+    "rareround",
+    "REFERALS",
+    "roundbet",
+    "roundwin",
+    "smallserial",
+    "Sumsub",
+    "supergraph",
+    "supertest",
+    "tolgee",
+    "typeorm",
+    "UNBAN",
+    "unplugin",
+    "vsgov"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "always",
+    "source.fixAll": "always"
+  }
+}
