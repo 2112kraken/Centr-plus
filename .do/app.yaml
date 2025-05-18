@@ -15,7 +15,7 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: "postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+        value: "postgresql://doadmin:${db.PASSWORD}@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
       - key: CLERK_SECRET_KEY
         scope: RUN_TIME
         value: ${clerk.SECRET_KEY}
@@ -46,7 +46,7 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: "postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+        value: "postgresql://doadmin:${db.PASSWORD}@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
       - key: BINOTEL_API_KEY
         scope: RUN_TIME
         value: ${binotel.API_KEY}

@@ -61,7 +61,7 @@ git push -u origin main
 5. Настройте переменные окружения:
    ```
    # База данных
-   DATABASE_URL=postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+   DATABASE_URL=postgresql://doadmin:${DB_PASSWORD}@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require
    
    # Аутентификация (Clerk)
    CLERK_SECRET_KEY=your_clerk_secret_key
@@ -119,13 +119,13 @@ Host: db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com
 Port: 25060
 Database: defaultdb
 Username: doadmin
-Password: AVNS_Rhw3rhKMEqvbNg32KHN
+Password: ${DB_PASSWORD}
 SSL Mode: require
 ```
 
 Строка подключения:
 ```
-postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+postgresql://doadmin:${DB_PASSWORD}@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require
 ```
 
 Эта строка подключения уже указана в файле `.do/app.yaml` для обоих сервисов (web и api).
