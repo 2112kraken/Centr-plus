@@ -60,15 +60,24 @@ git push -u origin main
 
 5. Настройте переменные окружения:
    ```
+   # База данных
    DATABASE_URL=postgres://user:pass@db:5432/centerplus
-   CLERK_SECRET_KEY=...
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
-   BINOTEL_API_KEY=...
-   BINOTEL_SECRET=...
-   BINOTEL_WIDGET_ID=...
+   
+   # Аутентификация (Clerk)
+   CLERK_SECRET_KEY=your_clerk_secret_key
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   
+   # Интернационализация
    DEFAULT_LOCALE=uk
    SUPPORTED_LOCALES=uk,en
+   
+   # Binotel (для API)
+   BINOTEL_API_KEY=your_binotel_api_key
+   BINOTEL_SECRET=your_binotel_secret
+   BINOTEL_WIDGET_ID=your_binotel_widget_id
    ```
+   
+   > **Важно**: Все переменные окружения должны быть заполнены корректными значениями. Отсутствие любой из этих переменных приведет к ошибке сборки.
 
 6. Настройте базу данных:
    - Выберите "Create a new database"
@@ -116,3 +125,33 @@ deploy:
 
 - Логи доступны в разделе "Apps" > [Ваше приложение] > "Insights" > "Logs"
 - Метрики производительности доступны в разделе "Apps" > [Ваше приложение] > "Insights" > "Metrics"
+
+## 6. Устранение проблем при деплое
+
+### Ошибка "Invalid environment variables"
+
+Если вы получаете ошибку "Invalid environment variables" при деплое, убедитесь, что:
+
+1. Все необходимые переменные окружения настроены в DigitalOcean App Platform:
+   - `DATABASE_URL` - URL для подключения к базе данных PostgreSQL
+   - `CLERK_SECRET_KEY` и `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - ключи для аутентификации
+   - `DEFAULT_LOCALE` и `SUPPORTED_LOCALES` - настройки интернационализации
+   - `BINOTEL_API_KEY`, `BINOTEL_SECRET` и `BINOTEL_WIDGET_ID` - для API
+
+2. Формат переменных окружения корректен:
+   - URL базы данных должен иметь формат: `postgres://username:password@host:port/database`
+   - Строковые значения не должны содержать пробелов в начале или конце
+
+3. База данных создана и доступна:
+   - Убедитесь, что база данных создана в DigitalOcean
+   - Проверьте, что IP-адрес вашего приложения имеет доступ к базе данных
+
+### Ошибка "Node version not specified in package.json"
+
+Добавьте версию Node.js в package.json:
+
+```json
+"engines": {
+  "node": ">=18.0.0"
+}
+```
