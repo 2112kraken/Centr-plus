@@ -75,9 +75,12 @@ git push -u origin main
    BINOTEL_API_KEY=your_binotel_api_key
    BINOTEL_SECRET=your_binotel_secret
    BINOTEL_WIDGET_ID=your_binotel_widget_id
+   
+   # Для деплоя (пропуск валидации переменных окружения)
+   SKIP_ENV_VALIDATION=true
    ```
    
-   > **Важно**: Все переменные окружения должны быть заполнены корректными значениями. Отсутствие любой из этих переменных приведет к ошибке сборки.
+   > **Важно**: Все переменные окружения должны быть заполнены корректными значениями. Для деплоя можно использовать `SKIP_ENV_VALIDATION=true`, чтобы пропустить валидацию переменных окружения на этапе сборки.
 
 6. Настройте базу данных:
    - Выберите "Create a new database"
@@ -130,21 +133,29 @@ deploy:
 
 ### Ошибка "Invalid environment variables"
 
-Если вы получаете ошибку "Invalid environment variables" при деплое, убедитесь, что:
+Если вы получаете ошибку "Invalid environment variables" при деплое, у вас есть два варианта:
 
-1. Все необходимые переменные окружения настроены в DigitalOcean App Platform:
+1. **Вариант 1: Настроить все необходимые переменные окружения**
    - `DATABASE_URL` - URL для подключения к базе данных PostgreSQL
    - `CLERK_SECRET_KEY` и `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - ключи для аутентификации
    - `DEFAULT_LOCALE` и `SUPPORTED_LOCALES` - настройки интернационализации
    - `BINOTEL_API_KEY`, `BINOTEL_SECRET` и `BINOTEL_WIDGET_ID` - для API
 
-2. Формат переменных окружения корректен:
+   Формат переменных окружения должен быть корректным:
    - URL базы данных должен иметь формат: `postgres://username:password@host:port/database`
    - Строковые значения не должны содержать пробелов в начале или конце
 
-3. База данных создана и доступна:
-   - Убедитесь, что база данных создана в DigitalOcean
-   - Проверьте, что IP-адрес вашего приложения имеет доступ к базе данных
+2. **Вариант 2: Использовать SKIP_ENV_VALIDATION (рекомендуется для деплоя)**
+   - Добавьте переменную окружения `SKIP_ENV_VALIDATION=true` в настройках App Platform
+   - Это позволит пропустить валидацию переменных окружения на этапе сборки
+   - Переменные окружения будут проверены при запуске приложения
+
+   В файле `.do/app.yaml` уже добавлена эта переменная:
+   ```yaml
+   - key: SKIP_ENV_VALIDATION
+     scope: BUILD_TIME
+     value: "true"
+   ```
 
 ### Ошибка "Node version not specified in package.json"
 

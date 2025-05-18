@@ -28,6 +28,9 @@ services:
       - key: SUPPORTED_LOCALES
         scope: RUN_TIME
         value: uk,en
+      - key: SKIP_ENV_VALIDATION
+        scope: BUILD_TIME
+        value: "true"
 
   - name: api
     github:
