@@ -2,18 +2,18 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import BookingStepper from "~/components/BookingStepper";
 
 interface BookingPageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: locale === 'uk' ? "Бронювання | CenterPlus" : "Booking | CenterPlus",
@@ -27,7 +27,7 @@ export async function generateMetadata({
 export default async function BookingPage({
   params,
 }: BookingPageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

@@ -4,16 +4,7 @@ import '@testing-library/jest-dom';
 // Добавляем типы для глобальных объектов
 declare global {
   interface Window {
-    matchMedia: (query: string) => {
-      matches: boolean;
-      media: string;
-      onchange: null;
-      addListener: jest.Mock;
-      removeListener: jest.Mock;
-      addEventListener: jest.Mock;
-      removeEventListener: jest.Mock;
-      dispatchEvent: jest.Mock;
-    };
+    matchMedia(query: string): MediaQueryList;
   }
 }
 

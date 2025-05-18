@@ -3,19 +3,19 @@ import AdminLayout from "~/components/admin/AdminLayout";
 import ContentManager from "~/components/admin/ContentManager";
 
 interface ContentPageProps {
-  params: {
+  params: Promise<{
     locale: string;
     type: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string; type: string };
+  params: Promise<{ locale: string; type: string }>;
 }) {
-  const { locale, type } = params;
+  const { locale, type } = await params;
   
   let title = '';
   if (locale === 'uk') {
@@ -60,7 +60,7 @@ export async function generateMetadata({
 export default async function ContentPage({
   params,
 }: ContentPageProps) {
-  const { locale, type } = params;
+  const { locale, type } = await params;
   
   // Проверка валидности типа контента
   const validTypes = ['ranges', 'courses', 'faqs'];

@@ -21,7 +21,7 @@ export default function LanguageSwitcher({ locale: _locale }: LanguageSwitcherPr
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     
     startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
+      router.replace(pathname, { locale: newLocale as 'uk' | 'en' });
     });
   };
 

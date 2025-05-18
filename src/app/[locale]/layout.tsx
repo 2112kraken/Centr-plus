@@ -5,7 +5,7 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { locales } from "~/i18n";
+import { locales } from "~/i18n/request";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 import CallWidget from "~/components/CallWidget";
@@ -23,9 +23,9 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: "CenterPlus Shooting Range",
@@ -46,15 +46,14 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);
 
   // Загружаем сообщения для текущей локали
-  // @ts-expect-error Импорт JSON файлов
   const messages = (locale === 'uk')
     ? (await import('../../../locales/uk.json')).default
     : (await import('../../../locales/en.json')).default;

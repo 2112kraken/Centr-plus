@@ -3,18 +3,18 @@ import AdminLayout from "~/components/admin/AdminLayout";
 import ContentTypesPage from "~/components/admin/ContentTypesPage";
 
 interface ContentPageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: locale === 'uk' ? "Управління контентом | CenterPlus" : "Content Management | CenterPlus",
@@ -28,7 +28,7 @@ export async function generateMetadata({
 export default async function ContentPage({
   params,
 }: ContentPageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

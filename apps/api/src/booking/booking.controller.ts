@@ -9,7 +9,7 @@ export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
+  create(@Body() createBookingDto: CreateBookingDto): { success: boolean } {
     this.logger.log(`Received booking request: ${JSON.stringify(createBookingDto)}`);
     return this.bookingService.createBooking(createBookingDto);
   }

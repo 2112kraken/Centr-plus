@@ -2,18 +2,18 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import PrivacyPolicy from "~/components/PrivacyPolicy";
 
 interface PrivacyPolicyPageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: locale === 'uk' ? "Політика конфіденційності | CenterPlus" : "Privacy Policy | CenterPlus",
@@ -27,7 +27,7 @@ export async function generateMetadata({
 export default async function PrivacyPolicyPage({
   params,
 }: PrivacyPolicyPageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

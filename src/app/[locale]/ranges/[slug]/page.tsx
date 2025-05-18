@@ -2,19 +2,19 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import RangeDetailsContent from "~/components/RangeDetails";
 
 interface RangeDetailsPageProps {
-  params: {
+  params: Promise<{
     locale: string;
     slug: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   
   // Моковые данные для метаданных
   const titles = {
@@ -59,7 +59,7 @@ export async function generateMetadata({
 export default async function RangeDetailsPage({
   params,
 }: RangeDetailsPageProps) {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

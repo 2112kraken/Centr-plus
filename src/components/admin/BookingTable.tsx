@@ -329,7 +329,9 @@ export default function BookingTable({ locale = 'uk' }: BookingTableProps) {
                         {booking.time} - {
                           // Простой расчет времени окончания
                           (() => {
-                            const [hours, minutes] = booking.time.split(':').map(Number);
+                            const timeParts = booking.time.split(':').map(Number);
+                            const hours = timeParts[0] ?? 0; // Значение по умолчанию 0, если hours undefined
+                            const minutes = timeParts[1] ?? 0; // Значение по умолчанию 0, если minutes undefined
                             const endHours = hours + booking.duration;
                             return `${endHours}:${minutes.toString().padStart(2, '0')}`;
                           })()

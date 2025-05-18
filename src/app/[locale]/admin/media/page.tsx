@@ -3,18 +3,18 @@ import AdminLayout from "~/components/admin/AdminLayout";
 import MediaLibrary from "~/components/admin/MediaLibrary";
 
 interface MediaPageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: locale === 'uk' ? "Медіа бібліотека | CenterPlus" : "Media Library | CenterPlus",
@@ -28,7 +28,7 @@ export async function generateMetadata({
 export default async function MediaPage({
   params,
 }: MediaPageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

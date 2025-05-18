@@ -2,18 +2,18 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import TrainingPageContent from "~/components/TrainingPage";
 
 interface TrainingPageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: locale === 'uk' ? "Навчання | CenterPlus" : "Training | CenterPlus",
@@ -27,7 +27,7 @@ export async function generateMetadata({
 export default async function TrainingPage({
   params,
 }: TrainingPageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

@@ -274,40 +274,35 @@ export default function ContentManager({ locale = 'uk', contentType = 'ranges' }
     if (!searchQuery) return data;
     
     return data.filter(item => {
+      const query = searchQuery.toLowerCase();
       switch (contentType) {
-        case 'ranges':
+        case 'ranges': {
+          const rangeItem = item as Range;
           return (
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.titleUk.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.slugUk.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.slugEn.toLowerCase().includes(searchQuery.toLowerCase())
+            rangeItem.titleUk.toLowerCase().includes(query) ||
+            rangeItem.titleEn.toLowerCase().includes(query) ||
+            rangeItem.slugUk.toLowerCase().includes(query) ||
+            rangeItem.slugEn.toLowerCase().includes(query)
           );
-        case 'courses':
+        }
+        case 'courses': {
+          const courseItem = item as Course;
           return (
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.titleUk.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.slugUk.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.slugEn.toLowerCase().includes(searchQuery.toLowerCase())
+            courseItem.titleUk.toLowerCase().includes(query) ||
+            courseItem.titleEn.toLowerCase().includes(query) ||
+            courseItem.slugUk.toLowerCase().includes(query) ||
+            courseItem.slugEn.toLowerCase().includes(query)
           );
-        case 'faqs':
+        }
+        case 'faqs': {
+          const faqItem = item as FAQ;
           return (
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.questionUk.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.questionEn.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.answerUk.toLowerCase().includes(searchQuery.toLowerCase()) ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            item.answerEn.toLowerCase().includes(searchQuery.toLowerCase())
+            faqItem.questionUk.toLowerCase().includes(query) ||
+            faqItem.questionEn.toLowerCase().includes(query) ||
+            faqItem.answerUk.toLowerCase().includes(query) ||
+            faqItem.answerEn.toLowerCase().includes(query)
           );
+        }
         default:
           return false;
       }
@@ -336,4 +331,6 @@ export default function ContentManager({ locale = 'uk', contentType = 'ranges' }
       return `€${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
     }
   };
+
+  return null; // Добавлено, чтобы компонент возвращал ReactNode
 }

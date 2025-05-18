@@ -93,7 +93,7 @@ export default function UserTable({ locale = 'uk' }: UserTableProps) {
     const newUser: User = {
       id: `user-${users.length + 1}`,
       email: newUserEmail,
-      name: newUserEmail.split('@')[0],
+      name: newUserEmail.split('@')[0] ?? '', // Значение по умолчанию '', если результат undefined
       role: newUserRole,
       createdAt: new Date().toISOString()
     };

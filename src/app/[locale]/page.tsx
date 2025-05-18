@@ -2,19 +2,19 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import HomePageContent from "~/components/HomePage";
 
 interface HomePageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: "CenterPlus Shooting Range",
@@ -25,7 +25,7 @@ export async function generateMetadata({
 export default async function HomePage({
   params,
 }: HomePageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

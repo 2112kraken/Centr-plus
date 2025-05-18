@@ -3,18 +3,18 @@ import AdminLayout from "~/components/admin/AdminLayout";
 import SettingsPage from "~/components/admin/SettingsPage";
 
 interface SettingsPageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 // Функция для генерации метаданных
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
   return {
     title: locale === 'uk' ? "Налаштування | CenterPlus" : "Settings | CenterPlus",
@@ -28,7 +28,7 @@ export async function generateMetadata({
 export default async function AdminSettingsPage({
   params,
 }: SettingsPageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   
   // Включаем поддержку серверных компонентов
   unstable_setRequestLocale(locale);

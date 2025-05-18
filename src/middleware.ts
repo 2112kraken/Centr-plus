@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import type { NextRequest } from 'next/server';
-import { locales, defaultLocale, type Locale } from './i18n';
+import { locales, defaultLocale, type Locale } from './i18n/request';
 
 // Функция для определения локали из запроса
 function getLocaleFromRequest(request: NextRequest): string {
@@ -15,14 +15,17 @@ function getLocaleFromRequest(request: NextRequest): string {
     // Парсим заголовок Accept-Language
     const acceptedLocales = acceptLanguage
       .split(',')
-      .map(item => item.split(';')[0].trim().substring(0, 2).toLowerCase());
+      .map(item => {
+        const part = item.split(';')[0];
+        return part ? part.trim().substring(0, 2).toLowerCase() : '';
+      });
     
     // Находим первую поддерживаемую локаль
     const matchedLocale = acceptedLocales.find(locale =>
       locales.includes(locale as Locale)
     );
     if (matchedLocale) {
-      preferredLocale = matchedLocale;
+      preferredLocale = matchedLocale as Locale;
     }
   }
   
@@ -38,11 +41,8 @@ export default createMiddleware({
   locales,
   // Локаль по умолчанию
   defaultLocale,
-  // Функция для определения локали
-  localeDetection: (request) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return getLocaleFromRequest(request);
-  }
+  // Включаем автоматическое определение локали
+  localeDetection: true
 });
 
 export const config = {

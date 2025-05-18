@@ -146,7 +146,7 @@ export default function RangeDetailsContent({ slug, locale }: RangeDetailsProps)
           <div>
             <div className="relative h-80 md:h-96 w-full mb-4 rounded-xl overflow-hidden">
               <Image
-                src={range.images[activeImage]}
+                src={range.images[activeImage] ?? range.images[0] ?? '/images/placeholder.jpg'}
                 alt={title}
                 fill
                 className="object-cover"

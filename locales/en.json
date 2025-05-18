@@ -196,7 +196,8 @@
     "invalidPhone": "Please enter a valid phone number",
     "hour": "hour",
     "hours": "hours",
-    "hours2": "hours"
+    "hours2": "hours",
+    "meters": "meters"
   },
   "faqAccordion": {
     "title": "Frequently Asked Questions",

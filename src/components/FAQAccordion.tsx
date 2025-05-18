@@ -31,7 +31,20 @@ export default function FAQAccordion({
   const [showAll, setShowAll] = useState(false);
   
   // Если items не передан, используем вопросы из локализации
-  const faqItems = items ?? t('questions') as FAQItem[];
+  let resolvedFaqItems: FAQItem[];
+  if (items) {
+    resolvedFaqItems = items;
+  } else {
+    const questionsFromLocale = t.raw('questions') as unknown; // Получаем как unknown
+    if (Array.isArray(questionsFromLocale)) {
+      // Проверяем, что это массив, и затем приводим к типу FAQItem[]
+      // Можно добавить более глубокую проверку структуры каждого элемента, если необходимо
+      resolvedFaqItems = questionsFromLocale as FAQItem[];
+    } else {
+      resolvedFaqItems = []; // По умолчанию пустой массив, если локализация не вернула массив
+    }
+  }
+  const faqItems: FAQItem[] = resolvedFaqItems; // Явно типизируем faqItems
   
   // Количество вопросов для отображения в свернутом состоянии
   const initialVisibleCount = 4;
