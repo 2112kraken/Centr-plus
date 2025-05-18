@@ -1,32 +1,83 @@
-# Create T3 App
+# CenterPlus Shooting Range
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Веб-платформа для стрелкового комплекса CenterPlus с публичной частью и административной панелью.
 
-## What's next? How do I make an app with this?
+## Технологический стек
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [Next.js 14](https://nextjs.org) (App Router + Server Components)
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [next-intl 3](https://next-intl-docs.vercel.app) (i18n)
+- [tRPC](https://trpc.io) (типизированные RPC)
+- [Prisma](https://prisma.io) (ORM)
+- [NestJS 11](https://nestjs.com) (Backend API)
+- [Turborepo](https://turbo.build) (монорепозиторий)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Структура проекта
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+```
+centerplus/
+ ├─ src/                    # Next.js приложение
+ │   ├─ app/                # App Router
+ │   ├─ components/         # React компоненты
+ │   ├─ server/api/         # tRPC роутеры
+ │   └─ styles/             # Tailwind стили
+ ├─ apps/
+ │   └─ api/                # NestJS backend
+ ├─ locales/                # uk.json, en.json
+ └─ prisma/                 # schema.prisma
+```
 
-## Learn More
+## Запуск проекта
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```bash
+# Установка зависимостей
+pnpm install
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+# Запуск Next.js (фронтенд)
+pnpm dev
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+# Запуск NestJS API (бэкенд)
+pnpm dev:api
+```
 
-## How do I deploy this?
+Фронтенд будет доступен по адресу http://localhost:3000, API - по адресу http://localhost:3001.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Пример запроса к API
+
+```bash
+curl -X POST http://localhost:3001/bookings \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Иван Петров",
+    "email": "ivan@example.com",
+    "phone": "+380991234567",
+    "date": "2025-06-01T14:00:00Z",
+    "rangeId": "range-1"
+  }'
+```
+
+## Деплой
+
+Проект настроен для деплоя на DigitalOcean App Platform. Подробные инструкции по деплою можно найти в файле [DEPLOY.md](./DEPLOY.md).
+
+### Автоматический деплой
+
+Репозиторий настроен для автоматического деплоя через GitHub Actions. При пуше в ветку `main` происходит:
+
+1. Запуск линтера и тестов
+2. Деплой на DigitalOcean App Platform
+3. Миграция базы данных
+
+### Конфигурация DigitalOcean
+
+Файл `.do/app.yaml` содержит конфигурацию для DigitalOcean App Platform, которая определяет:
+
+- Сервисы (web, api)
+- Переменные окружения
+- Базу данных
+- Настройки масштабирования
 
 ## Запуск API
 

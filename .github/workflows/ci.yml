@@ -37,5 +37,20 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
-      - name: Skip deploy on forks
-        run: echo "skip deploy on forks"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to DigitalOcean App Platform
+        uses: digitalocean/app_action@v1
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+          app_name: centerplus
+
+      - name: Wait for deployment to finish
+        run: sleep 60
+
+      - name: Run database migrations
+        if: ${{ secrets.DROPLET_SSH != '' }}
+        run: |
+          echo "Running database migrations..."
+          ssh ${{ secrets.DROPLET_SSH }} "cd /srv/api && docker compose exec api npx prisma migrate deploy"

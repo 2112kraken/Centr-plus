@@ -1,0 +1,70 @@
+name: centerplus
+region: fra
+services:
+  - name: web
+    github:
+      repo: 2112kraken/Centr-plus
+      branch: main
+      deploy_on_push: true
+    source_dir: /
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: professional-xs
+    routes:
+      - path: /
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${db.DATABASE_URL}
+      - key: CLERK_SECRET_KEY
+        scope: RUN_TIME
+        value: ${clerk.SECRET_KEY}
+      - key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+        scope: RUN_TIME
+        value: ${clerk.PUBLISHABLE_KEY}
+      - key: DEFAULT_LOCALE
+        scope: RUN_TIME
+        value: uk
+      - key: SUPPORTED_LOCALES
+        scope: RUN_TIME
+        value: uk,en
+
+  - name: api
+    github:
+      repo: 2112kraken/Centr-plus
+      branch: main
+      deploy_on_push: true
+    source_dir: /apps/api
+    http_port: 3001
+    instance_count: 1
+    instance_size_slug: professional-xs
+    routes:
+      - path: /api
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${db.DATABASE_URL}
+      - key: BINOTEL_API_KEY
+        scope: RUN_TIME
+        value: ${binotel.API_KEY}
+      - key: BINOTEL_SECRET
+        scope: RUN_TIME
+        value: ${binotel.SECRET}
+      - key: BINOTEL_WIDGET_ID
+        scope: RUN_TIME
+        value: ${binotel.WIDGET_ID}
+      - key: DEFAULT_LOCALE
+        scope: RUN_TIME
+        value: uk
+      - key: SUPPORTED_LOCALES
+        scope: RUN_TIME
+        value: uk,en
+
+databases:
+  - name: db
+    engine: PG
+    version: "15"
+    production: true
+    cluster_name: centerplus-db
+    db_name: centerplus
+    db_user: centerplus_user
