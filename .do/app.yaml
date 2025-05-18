@@ -15,7 +15,7 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: ${db.DATABASE_URL}
+        value: "postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
       - key: CLERK_SECRET_KEY
         scope: RUN_TIME
         value: ${clerk.SECRET_KEY}
@@ -46,7 +46,7 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: ${db.DATABASE_URL}
+        value: "postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
       - key: BINOTEL_API_KEY
         scope: RUN_TIME
         value: ${binotel.API_KEY}
@@ -62,12 +62,16 @@ services:
       - key: SUPPORTED_LOCALES
         scope: RUN_TIME
         value: uk,en
+      - key: SKIP_ENV_VALIDATION
+        scope: BUILD_TIME
+        value: "true"
 
-databases:
-  - name: db
-    engine: PG
-    version: "15"
-    production: true
-    cluster_name: centerplus-db
-    db_name: centerplus
-    db_user: centerplus_user
+# Используем существующую базу данных вместо создания новой
+# databases:
+#   - name: db
+#     engine: PG
+#     version: "15"
+#     production: true
+#     cluster_name: centerplus-db
+#     db_name: centerplus
+#     db_user: centerplus_user

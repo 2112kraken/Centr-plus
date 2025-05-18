@@ -61,7 +61,7 @@ git push -u origin main
 5. Настройте переменные окружения:
    ```
    # База данных
-   DATABASE_URL=postgres://user:pass@db:5432/centerplus
+   DATABASE_URL=postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require
    
    # Аутентификация (Clerk)
    CLERK_SECRET_KEY=your_clerk_secret_key
@@ -81,13 +81,10 @@ git push -u origin main
    ```
    
    > **Важно**: Все переменные окружения должны быть заполнены корректными значениями. Для деплоя можно использовать `SKIP_ENV_VALIDATION=true`, чтобы пропустить валидацию переменных окружения на этапе сборки.
+   
+   > **База данных**: Проект настроен на использование существующей базы данных PostgreSQL на DigitalOcean. Данные для подключения уже указаны в файле `.do/app.yaml`.
 
-6. Настройте базу данных:
-   - Выберите "Create a new database"
-   - Тип: PostgreSQL
-   - Размер: 1 vCPU / 1 GB
-
-7. Нажмите "Create Resources" для создания приложения
+6. Нажмите "Create Resources" для создания приложения
 
 ### Настройка CI/CD для автоматического деплоя
 
@@ -113,23 +110,43 @@ deploy:
       run: ssh ${{ secrets.DROPLET_SSH }} "cd /srv/api && docker compose exec api npx prisma migrate deploy"
 ```
 
-## 3. Проверка деплоя
+## 3. Настройка базы данных
+
+Проект уже настроен на использование существующей базы данных PostgreSQL на DigitalOcean. Данные для подключения:
+
+```
+Host: db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com
+Port: 25060
+Database: defaultdb
+Username: doadmin
+Password: AVNS_Rhw3rhKMEqvbNg32KHN
+SSL Mode: require
+```
+
+Строка подключения:
+```
+postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+```
+
+Эта строка подключения уже указана в файле `.do/app.yaml` для обоих сервисов (web и api).
+
+## 4. Проверка деплоя
 
 После успешного деплоя ваше приложение будет доступно по URL, предоставленному DigitalOcean App Platform. Обычно это что-то вроде `https://centerplus-xxxxx.ondigitalocean.app`.
 
-## 4. Настройка домена (опционально)
+## 5. Настройка домена (опционально)
 
 1. В панели управления DigitalOcean перейдите в раздел "Apps" и выберите ваше приложение
 2. Перейдите на вкладку "Settings" и выберите "Domains"
 3. Нажмите "Add Domain" и введите ваш домен (например, centerplus.ua)
 4. Следуйте инструкциям для настройки DNS-записей
 
-## 5. Мониторинг и логи
+## 6. Мониторинг и логи
 
 - Логи доступны в разделе "Apps" > [Ваше приложение] > "Insights" > "Logs"
 - Метрики производительности доступны в разделе "Apps" > [Ваше приложение] > "Insights" > "Metrics"
 
-## 6. Устранение проблем при деплое
+## 7. Устранение проблем при деплое
 
 ### Ошибка "Invalid environment variables"
 
