@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "title": "CenterPlus Shooting Range",
+    "description": "CenterPlus Shooting Range - professional shooting center with 25m, 50m, and 100m distances"
+  },
+  "navigation": {
+    "home": "Home",
+    "ranges": "Ranges",
+    "training": "Training",
+    "prices": "Prices",
+    "booking": "Booking",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welcome to CenterPlus",
+    "subtitle": "Professional Shooting Range Complex",
+    "cta": "Book a Range",
+    "benefitsTitle": "Our Advantages",
+    "benefits": {
+      "modernEquipment": {
+        "title": "Modern Equipment",
+        "description": "Latest target systems and electronic scoring"
+      },
+      "safety": {
+        "title": "Safety",
+        "description": "Modern ventilation and protection systems for your safety"
+      },
+      "instructors": {
+        "title": "Professional Instructors",
+        "description": "Experienced instructors with years of expertise"
+      },
+      "variety": {
+        "title": "Variety of Firearms",
+        "description": "Wide selection of firearms for training and entertainment"
+      }
+    },
+    "ctaSection": {
+      "title": "Ready to Try?",
+      "subtitle": "Book a range now and get a 10% discount on your first visit",
+      "button": "Book a Range"
+    }
+  },
+  "ranges": {
+    "title": "Our Ranges",
+    "subtitle": "Equipped with modern safety and ventilation systems",
+    "range25m": "25m Range",
+    "range50m": "50m Range",
+    "range100m": "100m Range",
+    "allRanges": "All Ranges",
+    "noRangesFound": "No ranges found"
+  },
+  "prices": {
+    "title": "Prices",
+    "subtitle": "Current prices for shooting range services",
+    "rangesPrices": "Range Prices",
+    "equipmentPrices": "Equipment Prices",
+    "servicesPrices": "Service Prices",
+    "fullPriceList": {
+      "title": "Full Price List",
+      "description": "Download the complete price list in PDF format to view all services and prices",
+      "downloadButton": "Download Price List"
+    },
+    "specialOffers": {
+      "title": "Special Offers",
+      "weekday": {
+        "title": "Weekday Discount",
+        "description": "20% discount on range rental Monday through Thursday from 10:00 to 15:00"
+      },
+      "group": {
+        "title": "Group Visits",
+        "description": "15% discount for groups of 5 or more people when booking a range"
+      },
+      "membership": {
+        "title": "Club Membership",
+        "description": "Get access to exclusive offers and discounts with club membership",
+        "learnMore": "Learn More"
+      }
+    }
+  },
+  "training": {
+    "title": "Training Courses",
+    "subtitle": "Professional shooting courses for beginners and experienced shooters",
+    "hours": "hours",
+    "currency": {
+      "ua": "UAH",
+      "en": "€"
+    },
+    "enrollButton": "Enroll in Course",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "howToEnroll": {
+      "title": "How to Enroll",
+      "description": "Enrollment in courses is by appointment. You can sign up for a course online or by calling us.",
+      "step1": {
+        "title": "Choose a Course",
+        "description": "Select a course that interests you and read its description"
+      },
+      "step2": {
+        "title": "Contact Us",
+        "description": "Call us or fill out the form on the website"
+      },
+      "step3": {
+        "title": "Start Learning",
+        "description": "Come to class at the specified time and gain new skills"
+      }
+    }
+  },
+  "rangeDetails": {
+    "meters": "meters",
+    "specifications": "Specifications",
+    "description": "Description",
+    "bookNow": "Book Now",
+    "lanes": "Shooting Lanes",
+    "targets": "Targets",
+    "weapons": "Weapons",
+    "safety": "Safety",
+    "rangeNotFound": "Range Not Found",
+    "rangeNotFoundDescription": "Sorry, but the range with this identifier was not found",
+    "backToRanges": "Back to Ranges List",
+    "viewImage": "View Image"
+  },
+  "footer": {
+    "rights": "© 2025 CenterPlus. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "address": "1 Shooting St., Kyiv, 01001",
+    "phone": "+380 44 123 4567",
+    "email": "info@centerplus.ua",
+    "workingHours": "Mon-Fri: 9:00 - 20:00, Sat-Sun: 10:00 - 18:00",
+    "contactUs": "Contact Us"
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "uk": "Ukrainian",
+    "en": "English"
+  },
+  "callWidget": {
+    "callbackButton": "Request a Call",
+    "title": "Request a Callback",
+    "name": "Your Name",
+    "phone": "Phone Number*",
+    "submit": "Request a Call",
+    "cancel": "Cancel",
+    "sending": "Sending...",
+    "success": "Thank you! We will call you back shortly.",
+    "phoneError": "Please enter a valid phone number",
+    "namePlaceholder": "John Smith",
+    "phonePlaceholder": "+380 XX XXX XX XX"
+  },
+  "heroSection": {
+    "title": "Professional Shooting Range",
+    "subtitle": "Modern ranges with 25m, 50m, and 100m distances",
+    "cta": "Book a Range"
+  },
+  "rangeCard": {
+    "viewDetails": "View Details",
+    "meters": "meters",
+    "available": "Available",
+    "unavailable": "Unavailable"
+  },
+  "priceTable": {
+    "title": "Price List",
+    "subtitle": "Current rates for range use and additional services",
+    "service": "Service",
+    "price": "Price",
+    "currency": "UAH",
+    "hour": "hour",
+    "session": "session",
+    "day": "day"
+  },
+  "bookingForm": {
+    "title": "Range Booking",
+    "subtitle": "Fill out the form to book a range",
+    "step1": "Select Range",
+    "step2": "Date and Time",
+    "step3": "Contact Information",
+    "range": "Range",
+    "selectRange": "Select a range",
+    "date": "Date",
+    "time": "Time",
+    "duration": "Duration",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "email": "Email",
+    "comment": "Comment",
+    "next": "Next",
+    "back": "Back",
+    "submit": "Book Now",
+    "success": "Thank you! Your booking has been received. We will contact you shortly.",
+    "required": "Required field",
+    "invalidEmail": "Please enter a valid email",
+    "invalidPhone": "Please enter a valid phone number",
+    "hour": "hour",
+    "hours": "hours",
+    "hours2": "hours"
+  },
+  "faqAccordion": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Answers to the most common questions",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "questions": [
+      {
+        "question": "Do I need a gun permit?",
+        "answer": "You don't need a permit to use our rental firearms. To use your own firearm, you must have the appropriate permit."
+      },
+      {
+        "question": "Can I bring my own firearm?",
+        "answer": "Yes, you can use your own firearm if you have the appropriate permits and documentation."
+      },
+      {
+        "question": "Is there an instructor for beginners?",
+        "answer": "Yes, we have qualified instructors who will provide guidance and help you learn the basics of shooting."
+      },
+      {
+        "question": "What is the minimum age to visit the range?",
+        "answer": "The minimum age to visit the range is 18 years. Persons aged 14 to 18 may visit the range accompanied by a parent or guardian."
+      }
+    ]
+  }
+}

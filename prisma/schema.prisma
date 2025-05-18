@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(cuid())
+  email    String    @unique
+  role     Role      @default(VIEWER)
+  bookings Booking[]
+}
+
+model Booking {
+  id      String        @id @default(cuid())
+  userId  String
+  rangeId String
+  date    DateTime
+  status  BookingStatus @default(PENDING)
+  paid    Boolean       @default(false)
+  User    User          @relation(fields: [userId], references: [id])
+  Range   Range         @relation(fields: [rangeId], references: [id])
+}
+
+model Range {
+  id        String    @id @default(cuid())
+  slugUk    String    @unique
+  slugEn    String    @unique
+  titleUk   String
+  titleEn   String
+  length    Int
+  contentUk Json
+  contentEn Json
+  bookings  Booking[]
+}
+
+model Course {
+  id        String @id @default(cuid())
+  slugUk    String @unique
+  slugEn    String @unique
+  titleUk   String
+  titleEn   String
+  priceUa   Int
+  priceEn   Int
+  contentUk Json
+  contentEn Json
+}
+
+model FAQ {
+  id         String @id @default(cuid())
+  questionUk String
+  questionEn String
+  answerUk   String
+  answerEn   String
+}
+
+model CallLog {
+  id           String   @id @default(cuid())
+  callerId     String
+  calledAt     DateTime @default(now())
+  durationSec  Int
+  recordingUrl String?
+  metadata     Json?
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}

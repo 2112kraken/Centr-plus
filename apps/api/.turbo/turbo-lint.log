@@ -1,0 +1,6 @@
+
+
+> api@0.0.1 lint /Users/kraken/Documents/centr-plus/Centr-plus/apps/api
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+Pages directory cannot be found at /Users/kraken/Documents/centr-plus/Centr-plus/apps/api/pages or /Users/kraken/Documents/centr-plus/Centr-plus/apps/api/src/pages. If using a custom path, please configure with the `no-html-link-for-pages` rule in your eslint config file.

@@ -1,0 +1,37 @@
+import { unstable_setRequestLocale } from "next-intl/server";
+import FAQPage from "~/components/FAQPage";
+
+interface FAQPageProps {
+  params: {
+    locale: string;
+  };
+}
+
+// Функция для генерации метаданных
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const { locale } = params;
+  
+  return {
+    title: locale === 'uk' ? "Часті запитання | CenterPlus" : "FAQ | CenterPlus",
+    description: locale === 'uk' 
+      ? "Відповіді на найпоширеніші запитання про стрілецький комплекс CenterPlus" 
+      : "Answers to the most common questions about CenterPlus Shooting Range",
+  };
+}
+
+// Серверный компонент для страницы
+export default async function FAQPageRoute({
+  params,
+}: FAQPageProps) {
+  const { locale } = params;
+  
+  // Включаем поддержку серверных компонентов
+  unstable_setRequestLocale(locale);
+  
+  // Используем клиентский компонент для отображения содержимого
+  return <FAQPage locale={locale} />;
+}
