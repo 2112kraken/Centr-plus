@@ -31,8 +31,8 @@ export default function RangeCard({
   const t = useTranslations('rangeCard');
 
   return (
-    <div 
-      className={`bg-white rounded-xl overflow-hidden shadow-card transition-transform duration-300 hover:translate-y-[-8px] ${className} ${!available ? 'opacity-70' : ''}`}
+    <div
+      className={`tilt-card glass-card reveal rounded-xl overflow-hidden transition-transform duration-300 hover:translate-y-[-8px] group ${className} ${!available ? 'opacity-70' : ''}`}
     >
       {/* Изображение */}
       <div className="relative h-48 w-full overflow-hidden">
@@ -41,7 +41,7 @@ export default function RangeCard({
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
+          className="aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105"
           priority
         />
         
@@ -56,7 +56,7 @@ export default function RangeCard({
       </div>
       
       {/* Контент */}
-      <div className="p-5">
+      <div className="p-5 flex-grow flex flex-col">
         <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
         
         <div className="flex items-center mb-4">
@@ -79,9 +79,9 @@ export default function RangeCard({
           </span>
         </div>
         
-        <Link 
+        <Link
           href={`/ranges/${slug}`}
-          className="inline-block bg-[var(--clr-base)] hover:bg-[var(--clr-base-light)] text-white rounded-lg px-4 py-2 transition-colors"
+          className="inline-block bg-[var(--clr-base)] hover:bg-[var(--clr-base-light)] text-white rounded-lg px-4 py-2 transition-colors mt-auto"
         >
           {t('viewDetails')}
         </Link>

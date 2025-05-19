@@ -5,6 +5,7 @@ import { Link } from "~/navigation";
 import HeroSection from "./HeroSection";
 import GradientSection from "./GradientSection";
 import Image from "next/image";
+import { useInView } from "~/hooks/useInView";
 
 export default function HomePageContent() {
   // Получаем функцию для перевода из пространства имен "home"
@@ -38,19 +39,24 @@ export default function HomePageContent() {
     }
   ];
 
+  // Создаем рефы для анимации появления
+  const benefitsRef = useInView();
+  const rangeGridRef = useInView();
+  const ctaRef = useInView();
+
   return (
     <main className="flex flex-col">
       {/* Hero Section */}
-      <HeroSection backgroundImage="/images/hero-bg.jpg" />
+      <HeroSection backgroundImage="/images/hero-bg.svg" />
       
       {/* Преимущества */}
-      <section className="py-16 px-4">
+      <section ref={benefitsRef} className="py-16 px-4 reveal">
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             {t("benefitsTitle")}
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 cq">
             {benefits.map((benefit) => (
               <div
                 key={benefit.id}
@@ -74,7 +80,7 @@ export default function HomePageContent() {
       </section>
       
       {/* CTA Section */}
-      <GradientSection className="py-16">
+      <GradientSection ref={ctaRef} className="py-16 reveal">
         <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("ctaSection.title")}</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">{t("ctaSection.subtitle")}</p>

@@ -14,9 +14,8 @@ export default function GradientSection({
   className = '' 
 }: GradientSectionProps) {
   return (
-    <section 
-      className={`bg-gradient-to-br from-[var(--clr-base)] to-[var(--clr-base-light)] text-white py-12 px-4 ${className}`}
-      style={{ backgroundImage: 'linear-gradient(135deg, var(--clr-base) 0%, var(--clr-base-light) 100%)' }}
+    <section
+      className={`clip-hero parallax section-gradient text-white py-12 px-4 ${className}`}
     >
       <div className="container mx-auto">
         {children}

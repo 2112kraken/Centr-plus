@@ -1,4 +1,4 @@
-name: centerplus
+name: alibet
 region: fra
 services:
   - name: web
@@ -12,6 +12,7 @@ services:
     instance_size_slug: professional-xs
     routes:
       - path: /
+      - domain: alibet.xyz
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
@@ -43,6 +44,7 @@ services:
     instance_size_slug: professional-xs
     routes:
       - path: /api
+      - domain: api.alibet.xyz
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME

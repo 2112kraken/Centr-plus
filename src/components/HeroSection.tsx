@@ -21,7 +21,8 @@ export default function HeroSection({
 
   return (
     <section
-      className={`relative min-h-[70vh] flex items-center justify-center px-4 py-16 md:py-24 ${className}`}
+      className={`relative min-h-[70vh] flex items-center justify-center px-4 py-16 md:py-24 section-gradient parallax ${className}`}
+      data-aos="fade-up"
     >
       {/* Фоновое изображение или градиент */}
       {backgroundImage ? (
@@ -31,22 +32,29 @@ export default function HeroSection({
         >
           {/* Затемнение для лучшей читаемости текста */}
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+          {/* Clip-polygon эффект */}
+          <div className="absolute inset-0 bg-black/40 clip-hero"></div>
         </div>
       ) : (
-        <div className="absolute inset-0 z-0 section-gradient"></div>
+        <div className="absolute inset-0 z-0 section-gradient">
+          {/* Clip-polygon эффект */}
+          <div className="absolute inset-0 bg-black/40 clip-hero"></div>
+        </div>
       )}
 
       {/* Контент */}
-      <div className="container mx-auto relative z-10 text-center">
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 animate-fade-in">
-          {t('title')}
+      <div className="container mx-auto relative z-10 text-center reveal">
+        <h1 className="text-3xl md:text-5xl font-bold mb-4">
+          <span className="bg-gradient-to-r from-accent via-white to-accent bg-clip-text text-transparent animate-[gradient_6s_ease_infinite]">
+            {t('title')}
+          </span>
         </h1>
         <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
           {t('subtitle')}
         </p>
-        <Link 
-          href="/booking" 
-          className="btn-primary inline-block text-lg animate-fade-in-up"
+        <Link
+          href="/booking"
+          className="btn-primary inline-block text-lg reveal"
         >
           {t('cta')}
         </Link>

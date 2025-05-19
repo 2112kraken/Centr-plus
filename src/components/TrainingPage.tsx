@@ -18,7 +18,7 @@ const mockCourses = [
     descriptionEn: 'Course for beginners who want to learn how to safely and effectively use a handgun. Includes theoretical and practical lessons.',
     priceUa: 2500,
     priceEn: 80,
-    image: '/images/courses/handgun-basic.jpg',
+    image: '/images/courses/handgun-basic.svg',
     duration: 8,
     level: 'beginner'
   },
@@ -30,7 +30,7 @@ const mockCourses = [
     descriptionEn: 'Course for those who already have basic handgun shooting skills and want to improve their technique and speed.',
     priceUa: 3500,
     priceEn: 120,
-    image: '/images/courses/handgun-advanced.jpg',
+    image: '/images/courses/handgun-advanced.svg',
     duration: 12,
     level: 'advanced'
   },
@@ -42,7 +42,7 @@ const mockCourses = [
     descriptionEn: 'Course for beginners who want to learn how to safely and effectively use a rifle. Includes theoretical and practical lessons.',
     priceUa: 3000,
     priceEn: 100,
-    image: '/images/courses/rifle-basic.jpg',
+    image: '/images/courses/rifle-basic.svg',
     duration: 10,
     level: 'beginner'
   },
@@ -54,7 +54,7 @@ const mockCourses = [
     descriptionEn: 'Course for those who want to learn tactical shooting in various conditions. Includes shooting from different positions, from behind cover, in motion.',
     priceUa: 4500,
     priceEn: 150,
-    image: '/images/courses/tactical.jpg',
+    image: '/images/courses/tactical.svg',
     duration: 16,
     level: 'expert'
   },
@@ -66,7 +66,7 @@ const mockCourses = [
     descriptionEn: 'Course for those who want to prepare for shooting sports competitions. Includes training in various disciplines.',
     priceUa: 5000,
     priceEn: 170,
-    image: '/images/courses/competition.jpg',
+    image: '/images/courses/competition.svg',
     duration: 20,
     level: 'expert'
   },
@@ -78,7 +78,7 @@ const mockCourses = [
     descriptionEn: 'Course for those who want to learn how to use firearms for self-defense. Includes legal aspects and practical skills.',
     priceUa: 4000,
     priceEn: 130,
-    image: '/images/courses/self-defense.jpg',
+    image: '/images/courses/self-defense.svg',
     duration: 14,
     level: 'intermediate'
   }

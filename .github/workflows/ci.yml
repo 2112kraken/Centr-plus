@@ -44,13 +44,15 @@ jobs:
         uses: digitalocean/app_action@v1
         with:
           token: ${{ secrets.DO_TOKEN }}
-          app_name: centerplus
+          app_name: alibet
 
       - name: Wait for deployment to finish
         run: sleep 60
 
       - name: Run database migrations
-        if: ${{ secrets.DROPLET_SSH != '' }}
         run: |
           echo "Running database migrations..."
-          ssh ${{ secrets.DROPLET_SSH }} "cd /srv/api && docker compose exec api npx prisma migrate deploy"
+          curl -X POST -H "Authorization: Bearer ${{ secrets.DO_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "https://api.digitalocean.com/v2/apps/${{ secrets.DO_APP_ID }}/deployments" \
+            -d '{"force_build": true}'
