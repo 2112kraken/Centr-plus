@@ -5,7 +5,7 @@
 # Проверка наличия переменных окружения
 if [ -z "$DATABASE_URL" ]; then
   echo "Ошибка: Переменная окружения DATABASE_URL не установлена"
-  echo "Установите строку подключения к базе данных: export DATABASE_URL=postgresql://doadmin:AVNS_Rhw3rhKMEqvbNg32KHN@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+  echo "Установите строку подключения к базе данных: export DATABASE_URL=postgresql://doadmin:ваш-пароль@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
   exit 1
 fi
 
