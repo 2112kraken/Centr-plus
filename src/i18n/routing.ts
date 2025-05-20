@@ -5,7 +5,7 @@ export const routing = defineRouting({
   locales: locales,
   defaultLocale: defaultLocale,
   localePrefix: {
-    mode: 'always' // Или 'as-needed', или 'never' в зависимости от вашей стратегии
+    mode: 'as-needed' // Изменено с 'always' на 'as-needed'
   },
   pathnames: {
     // Пример:
