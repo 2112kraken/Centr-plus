@@ -1,0 +1,83 @@
+ WARN  Unsupported engine: wanted: {"node":"20.x"} (current: {"node":"v22.15.0","pnpm":"10.10.0"})
+
+> centr-plus@0.1.0 dev /Users/kraken/Documents/centr-plus/Centr-plus
+> next dev
+
+ ⚠ Port 3000 is in use, using available port 3001 instead.
+   ▲ Next.js 15.3.2
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.1.248:3001
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1192ms
+ ✓ Compiled /middleware in 213ms (241 modules)
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 1562ms (1309 modules)
+ ✓ Compiled in 215ms (554 modules)
+ GET /uk 200 in 2123ms
+ GET /uk 200 in 56ms
+ ✓ Compiled in 191ms (554 modules)
+ GET /uk 200 in 16ms
+   Reload env: .env
+ ✓ Compiled in 303ms (1536 modules)
+ GET /uk 200 in 61ms
+ ✓ Compiled in 220ms (554 modules)
+ GET /uk 200 in 16ms
+ ✓ Compiled in 182ms (554 modules)
+ GET /uk 200 in 40ms
+ ✓ Compiled in 250ms (1536 modules)
+ GET /uk 200 in 281ms
+ GET /uk 200 in 11ms
+ ✓ Compiled in 186ms (554 modules)
+ GET /uk 200 in 24ms
+ ✓ Compiled in 143ms (554 modules)
+ GET /uk 200 in 12ms
+ ✓ Compiled in 147ms (554 modules)
+ GET /uk 200 in 12ms
+ ✓ Compiled in 151ms (554 modules)
+ GET /uk 200 in 16ms
+ ✓ Compiled in 140ms (554 modules)
+ GET /uk 200 in 12ms
+ ✓ Compiled in 238ms (554 modules)
+ GET /uk 200 in 13ms
+ ✓ Compiled in 549ms (1309 modules)
+ GET /uk 200 in 120ms
+ ✓ Compiled in 291ms (554 modules)
+ GET /uk 200 in 15ms
+ ✓ Compiled in 187ms (554 modules)
+ GET /uk 200 in 21ms
+ ✓ Compiled in 147ms (554 modules)
+ GET /uk 200 in 14ms
+ ✓ Compiled in 163ms (554 modules)
+ GET /uk 200 in 14ms
+ ✓ Compiled in 208ms (554 modules)
+ GET /uk 200 in 11ms
+ ✓ Compiled in 223ms (554 modules)
+ GET /uk 200 in 15ms
+ ✓ Compiled in 102ms (554 modules)
+ GET /uk 200 in 15ms
+ ✓ Compiled in 677ms (1550 modules)
+ GET /uk 200 in 77ms
+ ✓ Compiled in 432ms (1550 modules)
+ GET /uk 200 in 72ms
+ ✓ Compiled in 836ms (1309 modules)
+ GET /uk 200 in 70ms
+ ✓ Compiled in 203ms (554 modules)
+ GET /uk 200 in 25ms
+ ✓ Compiled in 174ms (554 modules)
+ GET /uk 200 in 14ms
+ ✓ Compiled in 262ms (554 modules)
+ GET /uk 200 in 23ms
+ ✓ Compiled in 493ms (1309 modules)
+ GET /uk 200 in 77ms
+ ✓ Compiled in 352ms (1309 modules)
+ GET /uk 200 in 102ms
+ ✓ Compiled in 243ms (1309 modules)
+ GET /uk 200 in 37ms
+ ✓ Compiled in 980ms (1309 modules)
+ GET /uk 200 in 142ms
+ ✓ Compiled in 574ms (1550 modules)
+ GET /uk 200 in 50ms
+ ✓ Compiled in 403ms (1550 modules)
+ GET /uk 200 in 61ms
