@@ -1,4 +1,4 @@
-name: alibet
+name: sk-rancho
 region: fra
 services:
   - name: web
@@ -8,15 +8,23 @@ services:
       deploy_on_push: true
     source_dir: /
     http_port: 3000
-    instance_count: 1
+    instance_count: 2
     instance_size_slug: professional-xs
+    auto_deploy: true
+    health_check:
+      http_path: /api/health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
     routes:
       - path: /
-      - domain: alibet.xyz
+      - domain: sk-rancho.com
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: "postgresql://doadmin:${db.PASSWORD}@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+        value: ${db.DATABASE_URL}
       - key: CLERK_SECRET_KEY
         scope: RUN_TIME
         value: ${clerk.SECRET_KEY}
@@ -32,6 +40,12 @@ services:
       - key: SKIP_ENV_VALIDATION
         scope: BUILD_TIME
         value: "true"
+      - key: SITE_URL
+        scope: RUN_TIME
+        value: "https://sk-rancho.com"
+    alert_policy:
+      rule: DEPLOYMENT_FAILED
+      disabled: false
 
   - name: api
     github:
@@ -40,15 +54,23 @@ services:
       deploy_on_push: true
     source_dir: /apps/api
     http_port: 3001
-    instance_count: 1
+    instance_count: 2
     instance_size_slug: professional-xs
+    auto_deploy: true
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
     routes:
       - path: /api
-      - domain: api.alibet.xyz
+      - domain: api.sk-rancho.com
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: "postgresql://doadmin:${db.PASSWORD}@db-postgresql-fra1-67118-do-user-20839386-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+        value: ${db.DATABASE_URL}
       - key: BINOTEL_API_KEY
         scope: RUN_TIME
         value: ${binotel.API_KEY}
@@ -67,13 +89,18 @@ services:
       - key: SKIP_ENV_VALIDATION
         scope: BUILD_TIME
         value: "true"
+    alert_policy:
+      rule: DEPLOYMENT_FAILED
+      disabled: false
 
-# Используем существующую базу данных вместо создания новой
-# databases:
-#   - name: db
-#     engine: PG
-#     version: "15"
-#     production: true
-#     cluster_name: centerplus-db
-#     db_name: centerplus
-#     db_user: centerplus_user
+databases:
+  - name: db
+    engine: PG
+    version: "15"
+    production: true
+    cluster_name: centerplus-db
+    db_name: centerplus
+    db_user: centerplus_user
+    db_size: db-s-dev-plus
+    num_nodes: 1
+    region: fra

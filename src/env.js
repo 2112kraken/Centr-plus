@@ -13,7 +13,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    SITE_URL: z.string().url().optional().default("https://centerplus.ua"),
+    SITE_URL: z.string().url().optional().default("https://sk-rancho.com"),
   },
 
   /**

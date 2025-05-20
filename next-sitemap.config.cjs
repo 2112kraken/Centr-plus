@@ -1,15 +1,15 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://centerplus.ua',
+  siteUrl: process.env.SITE_URL || 'https://sk-rancho.com',
   generateRobotsTxt: true,
   // Генерация отдельных карт сайта для каждой локали
   alternateRefs: [
     {
-      href: 'https://centerplus.ua/uk',
+      href: 'https://sk-rancho.com/uk',
       hreflang: 'uk',
     },
     {
-      href: 'https://centerplus.ua/en',
+      href: 'https://sk-rancho.com/en',
       hreflang: 'en',
     },
   ],
@@ -24,7 +24,7 @@ module.exports = {
       changefreq: 'daily',
       priority: 1.0,
       alternateRefs: [
-        { href: 'https://centerplus.ua/en', hreflang: 'en' },
+        { href: 'https://sk-rancho.com/en', hreflang: 'en' },
       ],
     });
     
@@ -35,7 +35,7 @@ module.exports = {
       changefreq: 'daily',
       priority: 0.8,
       alternateRefs: [
-        { href: 'https://centerplus.ua/uk', hreflang: 'uk' },
+        { href: 'https://sk-rancho.com/uk', hreflang: 'uk' },
       ],
     });
     
