@@ -11,8 +11,8 @@ export function useInView() {
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.length > 0 && entries[0].isIntersecting) {
-          entries[0].target.classList.add('in-view');
+        if (entries[0]?.isIntersecting) {
+          entries[0]?.target.classList.add('in-view');
         }
       },
       { threshold: 0.2 }
