@@ -3,12 +3,8 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PriceTable from './PriceTable';
 
-// Добавляем типы для @testing-library/react
-declare module '@testing-library/react' {
-  interface RenderResult {
-    container: HTMLElement;
-  }
-}
+// Свойство container уже существует в RenderResult, поэтому нам не нужно его добавлять
+// Удаляем импорт RenderResult, так как он не нужен
 
 // Мок для useTranslations
 jest.mock('next-intl', () => ({
