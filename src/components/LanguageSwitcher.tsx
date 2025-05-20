@@ -17,8 +17,16 @@ export default function LanguageSwitcher({ locale: _locale }: LanguageSwitcherPr
   const handleChange = (newLocale: string) => {
     if (newLocale === currentLocale) return;
     
-    // Устанавливаем cookie для сохранения выбранного языка
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    // Безопасная установка cookie с проверкой доступности
+    try {
+      // Проверяем, доступен ли document и cookie
+      if (typeof document !== 'undefined' && document.cookie !== undefined) {
+        document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+      }
+    } catch (error) {
+      console.warn('Unable to set cookie:', error);
+      // Продолжаем работу даже если не удалось установить cookie
+    }
     
     startTransition(() => {
       router.replace(pathname, { locale: newLocale as 'uk' | 'en' });
