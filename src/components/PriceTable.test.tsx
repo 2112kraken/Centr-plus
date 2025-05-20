@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PriceTable from './PriceTable';
 
@@ -63,11 +63,19 @@ describe('PriceTable', () => {
 
   it('отмечает избранные услуги', () => {
     render(<PriceTable items={mockItems} />);
-    
-    // В мобильной и десктопной версии должны быть звездочки для избранных услуг
-    // Проверяем, что есть хотя бы одна звездочка на странице
-    const stars = screen.getAllByText('★');
-    expect(stars.length).toBeGreaterThan(0);
+
+    // Определяем все услуги, помеченные как избранные
+    const featuredItems = mockItems.filter((item) => item.featured);
+
+    // Для каждой избранной услуги проверяем наличие значка звезды рядом с названием
+    featuredItems.forEach((item) => {
+      const serviceCells = screen.getAllByText(item.service);
+      expect(serviceCells.length).toBeGreaterThan(0);
+
+      serviceCells.forEach((cell) => {
+        expect(within(cell).getByText('★')).toBeInTheDocument();
+      });
+    });
   });
 
   it('применяет переданный className', () => {
