@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface GradientSectionProps {
   children: React.ReactNode;
@@ -9,12 +9,13 @@ interface GradientSectionProps {
  * Компонент-обертка с градиентным фоном
  * Использует градиент 135deg от --clr-base к --clr-base-light
  */
-export default function GradientSection({ 
-  children, 
-  className = '' 
-}: GradientSectionProps) {
+const GradientSection = forwardRef<HTMLElement, GradientSectionProps>(function GradientSection(
+  { children, className = '' },
+  ref
+) {
   return (
     <section
+      ref={ref}
       className={`clip-hero parallax section-gradient text-white py-12 px-4 ${className}`}
     >
       <div className="container mx-auto">
@@ -22,4 +23,8 @@ export default function GradientSection({
       </div>
     </section>
   );
-}
+});
+
+GradientSection.displayName = 'GradientSection';
+
+export default GradientSection;
