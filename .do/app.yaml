@@ -24,7 +24,7 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: ${db.DATABASE_URL}
+        value: ${DATABASE_URL}
       - key: CLERK_SECRET_KEY
         scope: RUN_TIME
         value: ${clerk.SECRET_KEY}
@@ -39,6 +39,9 @@ services:
         value: uk,en
       - key: SKIP_ENV_VALIDATION
         scope: BUILD_TIME
+        value: "true"
+      - key: SKIP_ENV_VALIDATION
+        scope: RUN_TIME
         value: "true"
       - key: SITE_URL
         scope: RUN_TIME
@@ -70,7 +73,7 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: ${db.DATABASE_URL}
+        value: ${DATABASE_URL}
       - key: BINOTEL_API_KEY
         scope: RUN_TIME
         value: ${binotel.API_KEY}
@@ -88,6 +91,9 @@ services:
         value: uk,en
       - key: SKIP_ENV_VALIDATION
         scope: BUILD_TIME
+        value: "true"
+      - key: SKIP_ENV_VALIDATION
+        scope: RUN_TIME
         value: "true"
     alert_policy:
       rule: DEPLOYMENT_FAILED

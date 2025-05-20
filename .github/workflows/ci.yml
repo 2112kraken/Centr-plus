@@ -84,3 +84,5 @@ jobs:
           echo "Running database migrations..."
           # Используем doctl для запуска команды в App Platform
           doctl apps create-deployment-component-log ${{ secrets.DO_APP_ID }} --component-name web --command "npx prisma migrate deploy"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
